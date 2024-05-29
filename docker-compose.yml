@@ -15,12 +15,14 @@ services:
       - postgresql_password
   db:
     image: postgres:13
+    command: -c config_file=/etc/postgresql.conf
     environment:
       - POSTGRES_DB=postgres
       - POSTGRES_PASSWORD_FILE=/run/secrets/postgresql_password
       - POSTGRES_USER=odoo
       - PGDATA=/var/lib/postgresql/data/pgdata
     volumes:
+      - ./customPostgresql.conf:/etc/postgresql.conf
       - odoo-db-data:/var/lib/postgresql/data/pgdata
     secrets:
       - postgresql_password
