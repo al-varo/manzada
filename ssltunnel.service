@@ -1,0 +1,18 @@
+[Unit]
+Description=SSH tunnel service SSL
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/ssh -qNn \
+  -o ServerAliveInterval=30 \
+  -o ServerAliveCountMax=3 \
+  -o StrictHostKeyChecking=no \
+  -o UserKnownHostsFile=/dev/null \
+  -R 443:localhost:443 \
+  root@app.manzada.net -p 2202
+Restart=always
+RestartSec=60
+
+[Install]
+WantedBy=multi-user.target
