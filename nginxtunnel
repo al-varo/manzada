@@ -1,0 +1,9 @@
+[Unit]
+Description=AutoSSH tunnel service Nginx
+After=network.target
+
+[Service]
+Environment="AUTOSSH_GATETIME=0"
+ExecStart=/usr/bin/autossh -M 0 -o "ServerAliveInterval 30" -o "ServerAliveCountMax 3" -N -R 80:0.0.0.0:80 root@app.manzada.net -p 2202
+[Install]
+WantedBy=multi-user.target
