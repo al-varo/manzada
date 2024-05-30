@@ -21,3 +21,6 @@ sudo docker run hello-world
 
 # add user to docker group
 sudo usermod -aG docker $USER
+
+#install autossh for tunneling
+sudo apt install autossh -y
