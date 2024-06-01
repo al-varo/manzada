@@ -9,7 +9,7 @@ ExecStart=/usr/bin/ssh -qNn \
   -o ServerAliveCountMax=3 \
   -o StrictHostKeyChecking=no \
   -o UserKnownHostsFile=/dev/null \
-  -R 80:192.168.1.9:80 \
+  -R 80:0.0.0.0:80 \
   root@app.manzada.net -p 2202
 Restart=always
 RestartSec=60
