@@ -1,6 +1,8 @@
 services:
-  web:
+  odoo:
+    container_name: odoo
     image: odoo:8
+    restart: always
     depends_on:
       - db
     ports:
@@ -13,8 +15,12 @@ services:
       - PASSWORD_FILE=/run/secrets/postgresql_password
     secrets:
       - postgresql_password
+    networks:
+      - odoo_network
   db:
     image: postgres:13
+    restart: always
+    container_name: postgresql
     command: -c config_file=/etc/postgresql.conf
     environment:
       - POSTGRES_DB=postgres
@@ -23,9 +29,23 @@ services:
       - PGDATA=/var/lib/postgresql/data/pgdata
     volumes:
       - ./customPostgresql.conf:/etc/postgresql.conf
-      - odoo-db-data:/var/lib/postgresql/data/pgdata
+      - ./odoo-db-data:/var/lib/postgresql/data/pgdata
     secrets:
       - postgresql_password
+    ports:
+      - "127.0.0.1:5432:5432"
+    networks:
+      - odoo_network
+    logging:
+      driver: json-file
+      options:
+        max-size: "30m"
+        max-file: "10"
+
+networks:
+  odoo_network:
+    driver: bridge
+    
 volumes:
   odoo-web-data:
   odoo-db-data:
